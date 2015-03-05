@@ -1,29 +1,10 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
 
-# Precompiled Headers
-*.gch
-*.pch
+# ignore backup files
+*~
 
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
+# Ignore build directory
+build
 
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
+## other ignore
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+.lock-waf_linux2_build
