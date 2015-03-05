@@ -1,6 +1,6 @@
 #include "simple_analog.h"
 
-// #include "pebble.h"
+#include "pebble.h"
 
 static Window *window;
 static Layer *s_simple_bg_layer, *s_date_layer, *s_hands_layer;
@@ -26,25 +26,25 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
 
   time_t now = time(NULL);
   struct tm *t = localtime(&now);
-  int32_t second_angle = TRIG_MAX_ANGLE * t->tm_sec / 60;
+  int32_t second_angle = TRIG_MAX_ANGLE - TRIG_MAX_ANGLE * t->tm_sec / 60;
   GPoint second_hand = {
     .x = (int16_t)(sin_lookup(second_angle) * (int32_t)second_hand_length / TRIG_MAX_RATIO) + center.x,
     .y = (int16_t)(-cos_lookup(second_angle) * (int32_t)second_hand_length / TRIG_MAX_RATIO) + center.y,
   };
 
   // second hand
-  //  graphics_context_set_stroke_color(ctx, GColorWhite);
-  // graphics_draw_line(ctx, second_hand, center);
+  graphics_context_set_stroke_color(ctx, GColorWhite);
+  graphics_draw_line(ctx, second_hand, center);
 
   // minute/hour hand
   graphics_context_set_fill_color(ctx, GColorWhite);
   graphics_context_set_stroke_color(ctx, GColorBlack);
 
-  gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE * t->tm_min / 60);
+  gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE - TRIG_MAX_ANGLE * t->tm_min / 60);
   gpath_draw_filled(ctx, s_minute_arrow);
   gpath_draw_outline(ctx, s_minute_arrow);
 
-  gpath_rotate_to(s_hour_arrow, (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
+  gpath_rotate_to(s_hour_arrow, TRIG_MAX_ANGLE - (TRIG_MAX_ANGLE * (((t->tm_hour % 12) * 6) + (t->tm_min / 10))) / (12 * 6));
   gpath_draw_filled(ctx, s_hour_arrow);
   gpath_draw_outline(ctx, s_hour_arrow);
 
@@ -80,7 +80,8 @@ static void window_load(Window *window) {
   layer_set_update_proc(s_date_layer, date_update_proc);
   layer_add_child(window_layer, s_date_layer);
 
-  s_day_label = text_layer_create(GRect(46, 114, 27, 20));
+  //s_day_label = text_layer_create(GRect(46, 114, 27, 20));
+  s_day_label = text_layer_create(GRect(0, 74, 27, 20));
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, GColorBlack);
   text_layer_set_text_color(s_day_label, GColorWhite);
@@ -88,7 +89,8 @@ static void window_load(Window *window) {
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
 
-  s_num_label = text_layer_create(GRect(73, 114, 18, 20));
+  //s_num_label = text_layer_create(GRect(73, 114, 18, 20));
+  s_num_label = text_layer_create(GRect(126, 74, 18, 20));
   text_layer_set_text(s_num_label, s_num_buffer);
   text_layer_set_background_color(s_num_label, GColorBlack);
   text_layer_set_text_color(s_num_label, GColorWhite);
@@ -136,7 +138,7 @@ static void init() {
     s_tick_paths[i] = gpath_create(&ANALOG_BG_POINTS[i]);
   }
 
-  tick_timer_service_subscribe(MINUTE_UNIT, handle_second_tick);
+  tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
 }
 
 static void deinit() {
