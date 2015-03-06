@@ -85,7 +85,7 @@ static void window_load(Window *window) {
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, GColorBlack);
   text_layer_set_text_color(s_day_label, GColorWhite);
-  text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_GOTHIC_18));
+  text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
 
