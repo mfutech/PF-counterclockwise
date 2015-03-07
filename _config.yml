@@ -3,9 +3,10 @@
 title: Counterclockwise
 locale: en_US
 description: have your clock run backwards
-#logo: site-logo.png
-#search: true
-#url: http://localhost:4000
+logo: mfutech.png
+search: false
+url: /PF-counterclockwise
+
 
 # Jekyll configuration
 
