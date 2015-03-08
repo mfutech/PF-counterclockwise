@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: page
 title: "Initial Release"
 categories: articles
 tags: [release, general-info]
