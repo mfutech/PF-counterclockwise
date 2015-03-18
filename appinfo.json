@@ -4,7 +4,7 @@
     "longName": "Counter Clockwise Analog Clock",
   "companyName": "MFU Tech",
   "versionCode": 1,
-  "versionLabel": "0.02",
+  "versionLabel": "0.03",
   "watchapp": {
     "watchface": true
   },

@@ -81,7 +81,7 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, s_date_layer);
 
   //s_day_label = text_layer_create(GRect(46, 114, 27, 20));
-  s_day_label = text_layer_create(GRect(0, 74, 27, 20));
+  s_day_label = text_layer_create(GRect(0, 74, 35, 20));
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, GColorBlack);
   text_layer_set_text_color(s_day_label, GColorWhite);
