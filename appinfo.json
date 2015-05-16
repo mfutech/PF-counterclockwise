@@ -1,10 +1,10 @@
 {
   "uuid": "7a51b432-3b4c-4d11-a71d-cfc17979939e",
   "shortName": "Counterclockwise",
-    "longName": "Counter Clockwise Analog Clock",
+  "longName": "Counter Clockwise Analog Clock",
   "companyName": "MFU Tech",
   "versionCode": 1,
-  "versionLabel": "0.03",
+  "versionLabel": "0.14",
   "watchapp": {
     "watchface": true
   },
@@ -12,5 +12,9 @@
   "resources": {
     "media": []
   },
-  "sdkVersion": "2.9"
+  "sdkVersion": "3",
+  "targetPlatforms": [
+    "aplite",
+    "basalt"
+  ]
 }

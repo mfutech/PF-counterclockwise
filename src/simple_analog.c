@@ -10,10 +10,15 @@ static GPath *s_tick_paths[NUM_CLOCK_TICKS];
 static GPath *s_minute_arrow, *s_hour_arrow;
 static char s_num_buffer[4], s_day_buffer[6];
 
+static GColor bgColor;
+static GColor fgColor;
+static GColor fgColorHandles;
+static GColor fgColorSeconds;
+
 static void bg_update_proc(Layer *layer, GContext *ctx) {
-  graphics_context_set_fill_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, bgColor);
   graphics_fill_rect(ctx, layer_get_bounds(layer), 0, GCornerNone);
-  graphics_context_set_fill_color(ctx, GColorWhite);
+  graphics_context_set_fill_color(ctx, fgColor);
   for (int i = 0; i < NUM_CLOCK_TICKS; ++i) {
     gpath_draw_filled(ctx, s_tick_paths[i]);
   }
@@ -33,12 +38,12 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   };
 
   // second hand
-  graphics_context_set_stroke_color(ctx, GColorWhite);
+  graphics_context_set_stroke_color(ctx, fgColorSeconds);
   graphics_draw_line(ctx, second_hand, center);
 
   // minute/hour hand
-  graphics_context_set_fill_color(ctx, GColorWhite);
-  graphics_context_set_stroke_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, fgColorHandles);
+  graphics_context_set_stroke_color(ctx, bgColor);
 
   gpath_rotate_to(s_minute_arrow, TRIG_MAX_ANGLE - TRIG_MAX_ANGLE * t->tm_min / 60);
   gpath_draw_filled(ctx, s_minute_arrow);
@@ -49,7 +54,7 @@ static void hands_update_proc(Layer *layer, GContext *ctx) {
   gpath_draw_outline(ctx, s_hour_arrow);
 
   // dot in the middle
-  graphics_context_set_fill_color(ctx, GColorBlack);
+  graphics_context_set_fill_color(ctx, bgColor);
   graphics_fill_rect(ctx, GRect(bounds.size.w / 2 - 1, bounds.size.h / 2 - 1, 3, 3), 0, GCornerNone);
 }
 
@@ -69,6 +74,10 @@ static void handle_second_tick(struct tm *tick_time, TimeUnits units_changed) {
 }
 
 static void window_load(Window *window) {
+  bgColor = COLOR_FALLBACK(GColorBlack, GColorBlack);
+  fgColor = COLOR_FALLBACK(GColorWhite, GColorWhite);
+  fgColorHandles = COLOR_FALLBACK(GColorYellow, GColorWhite);
+  fgColorSeconds = COLOR_FALLBACK(GColorRed, GColorWhite);
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
@@ -83,8 +92,8 @@ static void window_load(Window *window) {
   //s_day_label = text_layer_create(GRect(46, 114, 27, 20));
   s_day_label = text_layer_create(GRect(0, 74, 35, 20));
   text_layer_set_text(s_day_label, s_day_buffer);
-  text_layer_set_background_color(s_day_label, GColorBlack);
-  text_layer_set_text_color(s_day_label, GColorWhite);
+  text_layer_set_background_color(s_day_label, bgColor);
+  text_layer_set_text_color(s_day_label, fgColor);
   text_layer_set_font(s_day_label, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
@@ -92,8 +101,8 @@ static void window_load(Window *window) {
   //s_num_label = text_layer_create(GRect(73, 114, 18, 20));
   s_num_label = text_layer_create(GRect(126, 74, 18, 20));
   text_layer_set_text(s_num_label, s_num_buffer);
-  text_layer_set_background_color(s_num_label, GColorBlack);
-  text_layer_set_text_color(s_num_label, GColorWhite);
+  text_layer_set_background_color(s_num_label, bgColor);
+  text_layer_set_text_color(s_num_label, fgColor);
   text_layer_set_font(s_num_label, fonts_get_system_font(FONT_KEY_GOTHIC_18_BOLD));
 
   layer_add_child(s_date_layer, text_layer_get_layer(s_num_label));
