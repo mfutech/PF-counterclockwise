@@ -4,7 +4,7 @@
   "longName": "Counter Clockwise Analog Clock",
   "companyName": "MFU Tech",
   "versionCode": 1,
-  "versionLabel": "0.14",
+  "versionLabel": "0.15",
   "watchapp": {
     "watchface": true
   },
@@ -15,6 +15,7 @@
   "sdkVersion": "3",
   "targetPlatforms": [
     "aplite",
-    "basalt"
+    "basalt",
+    "chalk"
   ]
 }
