@@ -90,7 +90,11 @@ static void window_load(Window *window) {
   layer_add_child(window_layer, s_date_layer);
 
   //s_day_label = text_layer_create(GRect(46, 114, 27, 20));
+#if defined(PBL_RECT)
   s_day_label = text_layer_create(GRect(0, 74, 35, 20));
+#elif defined(PBL_ROUND)
+  s_day_label = text_layer_create(GRect(5, 80, 35, 20));
+#endif
   text_layer_set_text(s_day_label, s_day_buffer);
   text_layer_set_background_color(s_day_label, bgColor);
   text_layer_set_text_color(s_day_label, fgColor);
@@ -99,7 +103,11 @@ static void window_load(Window *window) {
   layer_add_child(s_date_layer, text_layer_get_layer(s_day_label));
 
   //s_num_label = text_layer_create(GRect(73, 114, 18, 20));
+#if defined(PBL_RECT)
   s_num_label = text_layer_create(GRect(126, 74, 18, 20));
+#elif defined(PBL_ROUND)
+  s_num_label = text_layer_create(GRect(155, 80, 18, 20));
+#endif
   text_layer_set_text(s_num_label, s_num_buffer);
   text_layer_set_background_color(s_num_label, bgColor);
   text_layer_set_text_color(s_num_label, fgColor);
@@ -144,7 +152,11 @@ static void init() {
   gpath_move_to(s_hour_arrow, center);
 
   for (int i = 0; i < NUM_CLOCK_TICKS; ++i) {
-    s_tick_paths[i] = gpath_create(&ANALOG_BG_POINTS[i]);
+#if defined(PBL_RECT)
+	    s_tick_paths[i] = gpath_create(&ANALOG_BG_POINTS[i]);
+#elif defined(PBL_ROUND)
+	    s_tick_paths[i] = gpath_create(&ANALOG_BG_POINTS_ROUND[i]);
+#endif
   }
 
   tick_timer_service_subscribe(SECOND_UNIT, handle_second_tick);
