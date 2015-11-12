@@ -16,3 +16,5 @@ build
 
 .sass-cache
 _site
+.cproject
+.project
